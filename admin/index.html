@@ -20,14 +20,10 @@ if($instanceData)
 
     foreach($instanceData as $user => $instances)
     {
-        echo '<tr>
-          <td colspan="4" class="listtitle">'.$user.'</td>
-        </td>';
-
         foreach($instances as $instance)
         {
             echo '<tr>
-                <td><a href="/CMD_SHOW_USER?user='.$user.'">'.$user.'</a></td>
+                <td valign="top" class="list"><a href="/CMD_SHOW_USER?user='.$user.'">'.$user.'</a></td>
                 <td valign="top" class="list">127.0.0.1</td>
                 <td valign="top" class="list">'.$instance['port'].'</td>
                 <td valign="top" class="list">'.date('d-m-Y H:i', $instance['created']).'</td>
@@ -35,7 +31,7 @@ if($instanceData)
         }
     }
 
-    echo '</table>';
+    echo '</tbody></table>';
 }
 else
 {
