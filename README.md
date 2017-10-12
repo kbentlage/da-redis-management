@@ -30,10 +30,6 @@ git pull
 ```
 
 # Screenshots
-Add Redis instance
-
-![Add SSH key](https://raw.githubusercontent.com/kbentlage/da-redis-management/master/screenshots/add.png)
-
 List Redis instances
 
 ![List SSH keys](https://raw.githubusercontent.com/kbentlage/da-redis-management/master/screenshots/list.png)
