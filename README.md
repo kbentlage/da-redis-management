@@ -32,4 +32,4 @@ git pull
 # Screenshots
 List Redis instances
 
-![List SSH keys](https://raw.githubusercontent.com/kbentlage/da-redis-management/master/screenshots/list.png)
+![List Redis instances](https://raw.githubusercontent.com/kbentlage/da-redis-management/master/screenshots/list.png)
