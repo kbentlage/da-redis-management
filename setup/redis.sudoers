@@ -1,0 +1,2 @@
+redis   ALL=(ALL)       NOPASSWD: /usr/bin/systemctl enable redis@*, /usr/bin/systemctl disable redis@*, /usr/bin/systemctl start redis@*, /usr/bin/systemctl stop redis@*
+Defaults:redis !requiretty

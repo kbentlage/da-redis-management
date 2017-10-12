@@ -1,0 +1,18 @@
+#!/usr/local/bin/php -c/usr/local/directadmin/plugins/redis_management/php/php.ini
+
+<?php
+require_once dirname(__DIR__) . '/php/bootstrap.php';
+
+$redisController = new \DirectAdmin\RedisManagement\Controllers\RedisController;
+
+$username = getenv('USERNAME');
+
+if($redisController->createInstance($username))
+{
+    echo '<p>Redis instance is succesfully created. <a href="/CMD_PLUGINS/redis_management">Back to list</a>.</p>';
+}
+else
+{
+    echo '<p>Redis instance is not created, due to an unkown error. <a href="/CMD_PLUGINS/redis_management">Back to list</a>.</p>';
+}
+?>

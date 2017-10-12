@@ -1,0 +1,26 @@
+#!/usr/local/bin/php -c/usr/local/directadmin/plugins/redis_management/php/php.ini
+
+<?php
+require_once dirname(__DIR__) . '/php/bootstrap.php';
+
+$redisController = new \DirectAdmin\RedisManagement\Controllers\RedisController;
+
+if(isset($_GET['PORT']) && $_GET['PORT'] && ctype_digit($_GET['PORT']))
+{
+    $username   = getenv('USERNAME');
+    $port       = $_GET['PORT'];
+
+    if($redisController->deleteInstance($username, $port))
+    {
+        echo '<p>Redis instance is succesfully deleted. <a href="/CMD_PLUGINS/redis_management">Back to list</a>.</p>';
+    }
+    else
+    {
+        echo '<p>Redis instance is not deleted, due to an unkown error. <a href="/CMD_PLUGINS/redis_management">Back to list</a>.</p>';
+    }
+}
+else
+{
+    echo '<p>Invalid request. <a href="/CMD_PLUGINS/redis_management">Back to list</a>.</p>';
+}
+?>

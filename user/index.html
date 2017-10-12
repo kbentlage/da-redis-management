@@ -1,0 +1,43 @@
+#!/usr/local/bin/php -c/usr/local/directadmin/plugins/redis_management/php/php.ini
+
+<?php
+require_once dirname(__DIR__) . '/php/bootstrap.php';
+
+$redisController = new \DirectAdmin\RedisManagement\Controllers\RedisController;
+
+$username = getenv('USERNAME');
+
+$instances = $redisController->getInstances($username);
+
+echo '<p><a href="/CMD_PLUGINS/redis_management/create.html">Create new redis instance</a>.</p>';
+
+if($instances)
+{
+    echo '<table class="list table-highlight" cellpadding="3" cellspacing="1">
+    <tbody>
+    <tr>
+        <td class="listtitle">Host</td>
+        <td class="listtitle">Port</td>
+        <td class="listtitle">Password</td>
+        <td class="listtitle">Created</td>
+        <td class="listtitle">Delete</td>
+    </tr>';
+
+    foreach($instances as $instance)
+    {
+    echo '<tr>
+        <td valign="top" class="list">127.0.0.1</td>
+        <td valign="top" class="list">'.$instance['port'].'</td>
+        <td valign="top" class="list">'.$instance['password'].'</td>
+        <td valign="top" class="list">'.date('d-m-Y H:i', $instance['created']).'</td>
+        <td valign="top" class="list"><a href="/CMD_PLUGINS/redis_management/delete.html?PORT='.$instance['port'].'">Delete</a></td>
+    </tr>';
+    }
+
+    echo '</table>';
+}
+else
+{
+    echo '<p>No redis instances created yet. <a href="/CMD_PLUGINS/redis_management/create.html">Create new redis instance</a>.</p>';
+}
+?>

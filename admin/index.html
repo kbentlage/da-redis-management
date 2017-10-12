@@ -1,0 +1,44 @@
+#!/usr/local/bin/php -c/usr/local/directadmin/plugins/redis_management/php/php.ini
+
+<?php
+require_once dirname(__DIR__) . '/php/bootstrap.php';
+
+$redisController = new \DirectAdmin\RedisManagement\Controllers\RedisController;
+
+$instanceData = $redisController->getInstances();
+
+if($instanceData)
+{
+    echo '<table class="list table-highlight" cellpadding="3" cellspacing="1">
+    <tbody>
+    <tr>
+        <td class="listtitle">User</td>
+        <td class="listtitle">Host</td>
+        <td class="listtitle">Port</td>
+        <td class="listtitle">Created</td>
+    </tr>';
+
+    foreach($instanceData as $user => $instances)
+    {
+        echo '<tr>
+          <td colspan="4" class="listtitle">'.$user.'</td>
+        </td>';
+
+        foreach($instances as $instance)
+        {
+            echo '<tr>
+                <a href="/CMD_SHOW_USER?user='.$user.'">'.$user.'</a>
+                <td valign="top" class="list">127.0.0.1</td>
+                <td valign="top" class="list">'.$instance['port'].'</td>
+                <td valign="top" class="list">'.date('d-m-Y H:i', $instance['created']).'</td>
+            </tr>';
+        }
+    }
+
+    echo '</table>';
+}
+else
+{
+    echo '<p>No redis instances created yet.</p>';
+}
+?>
