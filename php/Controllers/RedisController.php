@@ -76,7 +76,7 @@ class RedisController
         {
             if($this->_instances)
             {
-                return $this->_instances
+                return $this->_instances;
             }
             else
             {
