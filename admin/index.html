@@ -27,7 +27,7 @@ if($instanceData)
         foreach($instances as $instance)
         {
             echo '<tr>
-                <a href="/CMD_SHOW_USER?user='.$user.'">'.$user.'</a>
+                <td><a href="/CMD_SHOW_USER?user='.$user.'">'.$user.'</a></td>
                 <td valign="top" class="list">127.0.0.1</td>
                 <td valign="top" class="list">'.$instance['port'].'</td>
                 <td valign="top" class="list">'.date('d-m-Y H:i', $instance['created']).'</td>
