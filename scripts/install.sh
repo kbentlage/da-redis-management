@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Create log directory
-mkdir /usr/local/directadmin/plugins/redis_management/logs/
+mkdir /usr/local/directadmin/plugins/redis_management/logs
 
 # Create data directory
-mkdir /usr/local/directadmin/plugins/redis_management/data/
+mkdir /usr/local/directadmin/plugins/redis_management/data
 
 # Fix ownerships
-chown -R diradmin.diradmin /usr/local/directadmin/plugins/redis_management/*
+chown -R diradmin.diradmin /usr/local/directadmin/plugins/redis_management
 chown -R redis.redis /usr/local/directadmin/plugins/redis_management/data
 
 # Fix permissions
