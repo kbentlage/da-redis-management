@@ -8,11 +8,13 @@
 
 return [
     'plugin' => [
-        'dataFile' => 'data/instances.json',
+        'dataFile'  => 'data/instances.json',
         'startPort' => 7001,
     ],
     'redis' => [
+        'user'      => 'redis',
+        'group'     => 'redis',
         'configDir' => '/etc/redis/instances',
-        'dataDir' => '/var/lib/redis',
+        'dataDir'   => '/var/lib/redis',
     ],
 ];

@@ -287,6 +287,8 @@ class RedisController
             if (!is_dir($this->_config['redis']['configDir'].'/'))
             {
                 mkdir($this->_config['redis']['configDir'].'/', 0755);
+                chown($this->_config['redis']['configDir'].'/', $this->_config['redis']['user']);
+                chgrp($this->_config['redis']['configDir'].'/', $this->_config['redis']['user']);
             }
 
             // save config file
@@ -327,8 +329,11 @@ class RedisController
      */
     public function _createInstanceDataDir($port)
     {
-        if(mkdir($this->_config['redis']['dataDir'].'/'.$port, 0755))
+        if(mkdir($this->_config['redis']['dataDir'].'/'.$port.'/', 0755))
         {
+            chown($this->_config['redis']['dataDir'].'/'.$port.'/', $this->_config['redis']['user']);
+            chgrp($this->_config['redis']['dataDir'].'/'.$port.'/', $this->_config['redis']['user']);
+
             return TRUE;
         }
 
