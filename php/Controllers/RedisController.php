@@ -283,7 +283,7 @@ class RedisController
             );
             $configContent = str_replace($replaceTokens, $replaceValues, $templateContent);
 
-            // check if redis config dir needs to be created
+            // check if redis instance config dir needs to be created
             if (!is_dir($this->_config['redis']['configDir'].'/'))
             {
                 mkdir($this->_config['redis']['configDir'].'/', 0755);
@@ -329,6 +329,14 @@ class RedisController
      */
     public function _createInstanceDataDir($port)
     {
+        // check if redis data dir needs to be created
+        if (!is_dir($this->_config['redis']['dataDir'].'/'))
+        {
+            mkdir($this->_config['redis']['dataDir'].'/', 0755);
+            chown($this->_config['redis']['dataDir'].'/', $this->_config['redis']['user']);
+            chgrp($this->_config['redis']['dataDir'].'/', $this->_config['redis']['user']);
+        }
+
         if(mkdir($this->_config['redis']['dataDir'].'/'.$port.'/', 0755))
         {
             chown($this->_config['redis']['dataDir'].'/'.$port.'/', $this->_config['redis']['user']);
