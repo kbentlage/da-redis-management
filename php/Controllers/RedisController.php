@@ -239,7 +239,7 @@ class RedisController
         $json = json_encode($data);
 
         // determine data dir path
-        $pathInfo = pathinfo($this->_basePath . '/' . $this->_dataFile);
+        $pathInfo = pathinfo($this->_basePath . '/' . $this->_config['plugin']['dataFile']);
 
         // check if data direcory already exists
         if (!is_dir($pathInfo['dirname']))
@@ -249,7 +249,7 @@ class RedisController
         }
 
         // save json to file
-        if (file_put_contents($this->_basePath . '/' . $this->_dataFile, $json))
+        if (file_put_contents($this->_basePath . '/' . $this->_config['plugin']['dataFile'], $json))
         {
             return TRUE;
         }
