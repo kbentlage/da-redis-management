@@ -40,7 +40,7 @@ class RedisController
             // if local config exists, merge it with default config
             if(file_exists($this->_basePath.'/php/Config/local.php'))
             {
-                $localConfig = $this->_basePath.'/php/Config/local.php');
+                $localConfig = require_once($this->_basePath.'/php/Config/local.php');
 
                 $this->_config = array_merge($this->_config, $localConfig);
             }
