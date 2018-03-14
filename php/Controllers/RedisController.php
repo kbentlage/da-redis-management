@@ -10,13 +10,16 @@ namespace DirectAdmin\RedisManagement\Controllers;
 
 class RedisController
 {
-    private $_basePath         = '';
-    private $_dataFile         = 'data/instances.json';
-    private $_redisConfigDir   = '/etc/redis/instances';
-    private $_redisDataDir     = '/var/lib/redis';
+    private $_config           = array();
     private $_instances        = array();
-    private $_nextInstancePort = 7001;
+    private $_basePath         = NULL;
+    private $_nextInstancePort = NULL;
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->init();
@@ -30,25 +33,43 @@ class RedisController
     public function init()
     {
         $this->_basePath = dirname(dirname(__DIR__));
+        $this->_config   = require_once($this->_basePath.'/php/Config/main.php');
 
-        if (file_exists($this->_basePath . '/' . $this->_dataFile))
+        if($this->_config)
         {
-            $jsonContent = file_get_contents($this->_basePath . '/' . $this->_dataFile);
-
-            if (@json_decode($jsonContent))
+            // if local config exists, merge it with default config
+            if(file_exists($this->_basePath.'/php/Config/local.php'))
             {
-                $json = json_decode($jsonContent, TRUE);
+                $localConfig = $this->_basePath.'/php/Config/local.php');
 
-                if (isset($json['instances']))
-                {
-                    $this->_instances = $json['instances'];
-                }
+                $this->_config = array_merge($this->_config, $localConfig);
+            }
 
-                if (isset($json['nextInstancePort']))
+            $this->_nextInstancePort = $this->_config['plugin']['startPort'];
+
+            if (file_exists($this->_basePath . '/' . $this->_config['plugin']['dataFile']))
+            {
+                $jsonContent = file_get_contents($this->_basePath . '/' . $this->_config['plugin']['dataFile']);
+
+                if (@json_decode($jsonContent))
                 {
-                    $this->_nextInstancePort = $json['nextInstancePort'];
+                    $json = json_decode($jsonContent, TRUE);
+
+                    if (isset($json['instances']))
+                    {
+                        $this->_instances = $json['instances'];
+                    }
+
+                    if (isset($json['nextInstancePort']))
+                    {
+                        $this->_nextInstancePort = $json['nextInstancePort'];
+                    }
                 }
             }
+        }
+        else
+        {
+            throw new \Exception('No config data available!');
         }
     }
 
@@ -140,7 +161,7 @@ class RedisController
             if ($this->_deleteInstanceConfig($port))
             {
                 $this->_deleteInstanceDataDir($port);
-                
+
                 // save data
                 if ($this->_saveData())
                 {
@@ -253,15 +274,23 @@ class RedisController
             $replaceTokens = array(
                 '{{ port }}',
                 '{{ password }}',
+                '{{ dataDir }}',
             );
             $replaceValues = array(
                 $port,
                 $password,
+                $this->_config['redis']['dataDir'],
             );
             $configContent = str_replace($replaceTokens, $replaceValues, $templateContent);
 
+            // check if redis config dir needs to be created
+            if (!is_dir($this->_config['redis']['configDir'].'/'))
+            {
+                mkdir($this->_config['redis']['configDir'].'/', 0755);
+            }
+
             // save config file
-            if (file_put_contents($this->_redisConfigDir . '/' . $port . '.conf', $configContent))
+            if (file_put_contents($this->_config['redis']['configDir'] . '/' . $port . '.conf', $configContent))
             {
                 return TRUE;
             }
@@ -279,9 +308,9 @@ class RedisController
      */
     public function _deleteInstanceConfig($port)
     {
-        if (file_exists($this->_redisConfigDir . '/' . $port . '.conf'))
+        if (file_exists($this->_config['redis']['configDir'] . '/' . $port . '.conf'))
         {
-            unlink($this->_redisConfigDir . '/' . $port . '.conf');
+            unlink($this->_config['redis']['configDir'] . '/' . $port . '.conf');
 
             return TRUE;
         }
@@ -298,7 +327,7 @@ class RedisController
      */
     public function _createInstanceDataDir($port)
     {
-        if(mkdir($this->_redisDataDir.'/'.$port, 0755))
+        if(mkdir($this->_config['redis']['dataDir'].'/'.$port, 0755))
         {
             return TRUE;
         }
@@ -315,9 +344,9 @@ class RedisController
      */
     public function _deleteInstanceDataDir($port)
     {
-        if(is_dir($this->_redisDataDir.'/'.$port))
+        if(is_dir($this->_config['redis']['dataDir'].'/'.$port))
         {
-            if($this->_exec('rm -rf '.$this->_redisDataDir.'/'.$port.'/'))
+            if($this->_exec('rm -rf '.$this->_config['redis']['dataDir'].'/'.$port.'/'))
             {
                 return TRUE;
             }
