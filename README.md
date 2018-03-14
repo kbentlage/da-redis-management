@@ -23,6 +23,13 @@ cd /usr/local/directadmin/plugins/redis_management/setup
 sh install.sh
 ```
 
+# Configuration
+By default, the plugin is working out-of-the box. But it can be needed to change serveral configuration settings.
+
+The default settings are stored in /usr/local/directadmin/plugins/redis_management/php/Config/main.php.
+
+If you need to change for example the location where the redis data is stored (default in /var/lib/redis), you can do this in "local.php". Please do not change this in the "main.php" config file, because this file can be overwritten when a new version of this plugin is installed.
+
 # Update
 ```
 cd /usr/local/directadmin/plugins/redis_management
