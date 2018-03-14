@@ -20,3 +20,5 @@ Thumbs\.db
 test\*
 data\*
 logs\*
+
+php/Config/local.php
