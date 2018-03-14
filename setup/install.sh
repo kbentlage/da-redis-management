@@ -12,7 +12,7 @@ PHP_VERSION=$(php -i | grep 'PHP Version');
 # Remount /tmp with execute permissions
 mount -o remount,exec /tmp
 
-if [[ $PHP_VERSION == *"7.0"* ]]
+if [[ $PHP_VERSION == *"7."* ]]
 then
         pecl install redis
 else
