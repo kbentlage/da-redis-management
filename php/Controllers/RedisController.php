@@ -42,7 +42,7 @@ class RedisController
             {
                 $localConfig = require_once($this->_basePath.'/php/Config/local.php');
 
-                $this->_config = array_merge($this->_config, $localConfig);
+                $this->_config = array_replace_recursive($this->_config, $localConfig);
             }
 
             $this->_nextInstancePort = $this->_config['plugin']['startPort'];
