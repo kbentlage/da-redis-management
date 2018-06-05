@@ -313,6 +313,7 @@ class RedisController
             // save config file
             if (file_put_contents($this->_config['redis']['configDir'] . '/' . $port . '.conf', $configContent))
             {
+                chmod($this->_config['redis']['configDir'] . '/' . $port . '.conf',0600);
                 return TRUE;
             }
         }
