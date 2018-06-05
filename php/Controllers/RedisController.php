@@ -174,6 +174,25 @@ class RedisController
     }
 
     /**
+     * Delete All User Instances
+     *
+     * @param $username
+     * @return bool
+     */
+    public function deleteAllUserInstances($username)
+    {
+        if(isset($this->_instances[$username]) && !empty($this->_instances[$username]))
+        {
+            foreach($this->_instances[$username] as $port => $instance)
+            {
+                $this->deleteInstance($username, $port);
+            }
+
+            return TRUE;
+        }
+    }
+
+    /**
      * Add Instance Data
      *
      * @param $username
