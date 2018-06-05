@@ -22,3 +22,6 @@ fi
 if [ ! "$(cat /usr/local/directadmin/scripts/custom/user_destroy_post.sh | grep redis_management)" ]; then
     echo -e '\n/usr/local/directadmin/plugins/redis_management/php/Hooks/DirectAdmin/userDestroyPost.php "$username"' >> /usr/local/directadmin/scripts/custom/user_destroy_post.sh
 fi
+
+# Make userDestroyPost.php script executable
+chmod +x /usr/local/directadmin/plugins/redis_management/php/Hooks/DirectAdmin/userDestroyPost.php
