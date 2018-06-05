@@ -8,6 +8,9 @@ if(isset($argv[1]) && $argv[1])
 {
     $username = trim($argv[1]);
 
-    $redisController->deleteAllUserInstances($username);
+    if($redisController->deleteAllUserInstances($username))
+    {
+        echo "User's redis instances removed.";
+    }
 }
 ?>
