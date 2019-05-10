@@ -1,18 +1,17 @@
 [Unit]
-Description=Redis
+Description=Redis instance %i
 After=network.target
 Requires=redis.service
 Before=redis.service
 BindsTo=redis.service
 
 [Service]
-Type=simple
+ExecStart=/usr/bin/redis-server /etc/redis/instances/%i.conf --daemonize no
+ExecStop=/usr/libexec/redis-shutdown redis@%i
 User=redis
 Group=redis
-PrivateTmp=true
-PIDFile=/var/run/redis/%i.pid
-ExecStart=/usr/bin/redis-server /etc/redis/instances/%i.conf
-Restart=on-failure
+RuntimeDirectory=redis
+RuntimeDirectoryMode=0755
 
 [Install]
 WantedBy=redis.service
